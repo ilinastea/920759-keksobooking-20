@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Анастасия Ильина](https://up.htmlacademy.ru/javascript/20/user/920759).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Махнёв](https://htmlacademy.ru/profile/id7392).
 
 ---
 
