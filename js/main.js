@@ -22,14 +22,14 @@ var createSimilarNotices = function () {
       offer: {
         title: offerTitles[random(0, offerTitles.length - 1)],
         adress: '600, 350',
-        price: random(5000, 100000),
+        price: random(5000, 15000),
         type: offerTypes[random(0, offerTypes.length - 1)],
         rooms: random(1, 4),
         guests: random(1, 4),
         checkin: offerCheckin[random(0, offerCheckin.length - 1)],
         checkout: offerCheckin[random(0, offerCheckin.length - 1)],
         features: offerFeatures.slice(0, random(1, offerFeatures.length - 1)),
-        description: '',
+        description: 'Здесь будет описание',
         photos: offerPhotos.slice(0, random(1, offerPhotos.length - 1))
       },
       location: {
@@ -58,8 +58,61 @@ var renderPin = function (pin) {
   return newPin;
 };
 
-var fragment = document.createDocumentFragment();
+var fragmentPins = document.createDocumentFragment();
 for (var i = 0; i < notices.length; i++) {
-  fragment.appendChild(renderPin(notices[i]));
+  fragmentPins.appendChild(renderPin(notices[i]));
 }
-mapPinsBlock.appendChild(fragment);
+mapPinsBlock.appendChild(fragmentPins);
+
+var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+var addCard = function (card) {
+  var newCard = mapCardTemplate.cloneNode(true);
+  newCard.querySelector('.popup__avatar').src = card.author.avatar;
+  newCard.querySelector('.popup__title').textContent = card.offer.title;
+  newCard.querySelector('.popup__text--address').textContent = card.offer.adress;
+  newCard.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+  if (card.offer.type === 'palace') {
+    newCard.querySelector('.popup__type').textContent = 'Дворец';
+  }
+  if (card.offer.type === 'flat') {
+    newCard.querySelector('.popup__type').textContent = 'Квартира';
+  }
+  if (card.offer.type === 'house') {
+    newCard.querySelector('.popup__type').textContent = 'Дом';
+  }
+  if (card.offer.type === 'bungalo') {
+    newCard.querySelector('.popup__type').textContent = 'Бунгало';
+  }
+  newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+
+  var features = newCard.querySelector('.popup__features');
+  if (!card.offer.features.includes('wifi')) {
+    features.removeChild(newCard.querySelector('.popup__feature--wifi'));
+  }
+  if (!card.offer.features.includes('dishwasher')) {
+    features.removeChild(newCard.querySelector('.popup__feature--dishwasher'));
+  }
+  if (!card.offer.features.includes('parking')) {
+    features.removeChild(newCard.querySelector('.popup__feature--parking'));
+  }
+  if (!card.offer.features.includes('washer')) {
+    features.removeChild(newCard.querySelector('.popup__feature--washer'));
+  }
+  if (!card.offer.features.includes('elevator')) {
+    features.removeChild(newCard.querySelector('.popup__feature--elevator'));
+  }
+  if (!card.offer.features.includes('conditioner')) {
+    features.removeChild(newCard.querySelector('.popup__feature--conditioner'));
+  }
+
+  newCard.querySelector('.popup__description').textContent = card.offer.description;
+
+  var photos = newCard.querySelector('.popup__photos');
+  photos.querySelector('img').src = card.offer.photos[0];
+
+  map.insertBefore(newCard, document.querySelector('.map__filters-container'));
+  return newCard;
+};
+
+addCard(notices[0]);
