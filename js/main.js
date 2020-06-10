@@ -5,7 +5,7 @@ var offerTitles = ['Title1', 'Title2', 'Title3', 'Title4', 'Title5', 'Title6', '
 var offerTypes = ['palace', 'flat', 'house', 'bungalo'];
 var offerCheckin = ['12:00', '13:00', '14:00'];
 var offerFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg','http://o0.github.io/assets/images/tokyo/hotel2.jpg','http://o0.github.io/assets/images/tokyo/hotel3.jpg','http://o0.github.io/assets/images/tokyo/hotel1.jpg','http://o0.github.io/assets/images/tokyo/hotel2.jpg','http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg', 'http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 //  вспомогательная функция
 var random = function (min, max) {
@@ -43,8 +43,6 @@ var createSimilarNotices = function () {
 };
 
 var notices = createSimilarNotices();
-
-console.log(notices);
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
@@ -90,13 +88,13 @@ var addCardPhotos = function (card) {
       var newImg = img.cloneNode(true);
       photos.appendChild(newImg);
       newImg.src = card.offer.photos[i];
-    };
+    }
   }
   return newImg;
 };
 addCardPhotos(notices[0]);
 
-var addCardType = function(card) {
+var addCardType = function (card) {
   var types = {
     palace: 'Дворец',
     flat: 'Квартира',
@@ -107,7 +105,7 @@ var addCardType = function(card) {
 };
 addCardType(notices[0]);
 
-var addCardFeatures = function(card) {
+var addCardFeatures = function (card) {
   var features = popup.querySelector('.popup__features');
   if (!card.offer.features.includes('wifi')) {
     features.removeChild(popup.querySelector('.popup__feature--wifi'));
