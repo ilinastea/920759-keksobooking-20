@@ -64,24 +64,11 @@ for (var i = 0; i < notices.length; i++) {
 }
 mapPinsBlock.appendChild(fragmentPins);
 
-var mapCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
-var addCard = function (card) {
-  var newCard = mapCardTemplate.cloneNode(true);
-  newCard.querySelector('.popup__avatar').src = card.author.avatar;
-  newCard.querySelector('.popup__title').textContent = card.offer.title;
-  newCard.querySelector('.popup__text--address').textContent = card.offer.adress;
-  newCard.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
-  newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
-  newCard.querySelector('.popup__description').textContent = card.offer.description;
-  map.insertBefore(newCard, document.querySelector('.map__filters-container'));
-  return newCard;
-};
-var popup = addCard(notices[0]);
-
-var addCardPhotos = function (card) {
-  var photos = popup.querySelector('.popup__photos');
-  var img = popup.querySelector('.popup__photo');
+var addCardPhotos = function (card, template) {
+  var photos = template.querySelector('.popup__photos');
+  var img = template.querySelector('.popup__photo');
   img.src = card.offer.photos[0];
   if (card.offer.photos.length > 1) {
     for (i = 1; i < card.offer.photos.length; i++) {
@@ -92,39 +79,53 @@ var addCardPhotos = function (card) {
   }
   return newImg;
 };
-addCardPhotos(notices[0]);
 
-var addCardType = function (card) {
+var addCardType = function (card, template) {
   var types = {
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
     bungalo: 'Бунгало'
   };
-  popup.querySelector('.popup__type').textContent = types[card.offer.type];
+  template.querySelector('.popup__type').textContent = types[card.offer.type];
 };
-addCardType(notices[0]);
 
-var addCardFeatures = function (card) {
-  var features = popup.querySelector('.popup__features');
+var addCardFeatures = function (card, template) {
+  var features = template.querySelector('.popup__features');
   if (!card.offer.features.includes('wifi')) {
-    features.removeChild(popup.querySelector('.popup__feature--wifi'));
+    features.removeChild(template.querySelector('.popup__feature--wifi'));
   }
   if (!card.offer.features.includes('dishwasher')) {
-    features.removeChild(popup.querySelector('.popup__feature--dishwasher'));
+    features.removeChild(template.querySelector('.popup__feature--dishwasher'));
   }
   if (!card.offer.features.includes('parking')) {
-    features.removeChild(popup.querySelector('.popup__feature--parking'));
+    features.removeChild(template.querySelector('.popup__feature--parking'));
   }
   if (!card.offer.features.includes('washer')) {
-    features.removeChild(popup.querySelector('.popup__feature--washer'));
+    features.removeChild(template.querySelector('.popup__feature--washer'));
   }
   if (!card.offer.features.includes('elevator')) {
-    features.removeChild(popup.querySelector('.popup__feature--elevator'));
+    features.removeChild(template.querySelector('.popup__feature--elevator'));
   }
   if (!card.offer.features.includes('conditioner')) {
-    features.removeChild(popup.querySelector('.popup__feature--conditioner'));
+    features.removeChild(template.querySelector('.popup__feature--conditioner'));
   }
   return features;
 };
-addCardFeatures(notices[0]);
+
+
+var addCard = function (card) {
+  addCardType(card, cardTemplate);
+  addCardFeatures(card, cardTemplate);
+  addCardPhotos(card, cardTemplate);
+  var newCard = cardTemplate.cloneNode(true);
+  newCard.querySelector('.popup__avatar').src = card.author.avatar;
+  newCard.querySelector('.popup__title').textContent = card.offer.title;
+  newCard.querySelector('.popup__text--address').textContent = card.offer.adress;
+  newCard.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+  newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+  newCard.querySelector('.popup__description').textContent = card.offer.description;
+  map.insertBefore(newCard, document.querySelector('.map__filters-container'));
+  return newCard;
+};
+addCard(notices[0]);
