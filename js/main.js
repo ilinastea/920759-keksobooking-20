@@ -5,7 +5,7 @@ var offerTitles = ['Title1', 'Title2', 'Title3', 'Title4', 'Title5', 'Title6', '
 var offerTypes = ['palace', 'flat', 'house', 'bungalo'];
 var offerCheckin = ['12:00', '13:00', '14:00'];
 var offerFeatures = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var offerPhotos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg', 'http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 //  вспомогательная функция
 var random = function (min, max) {
@@ -22,15 +22,15 @@ var createSimilarNotices = function () {
       offer: {
         title: offerTitles[random(0, offerTitles.length - 1)],
         adress: '600, 350',
-        price: random(5000, 100000),
+        price: random(5000, 15000),
         type: offerTypes[random(0, offerTypes.length - 1)],
         rooms: random(1, 4),
         guests: random(1, 4),
         checkin: offerCheckin[random(0, offerCheckin.length - 1)],
         checkout: offerCheckin[random(0, offerCheckin.length - 1)],
         features: offerFeatures.slice(0, random(1, offerFeatures.length - 1)),
-        description: '',
-        photos: offerPhotos.slice(0, random(1, offerPhotos.length - 1))
+        description: 'Здесь будет описание',
+        photos: offerPhotos.slice(0, random(1, offerPhotos.length))
       },
       location: {
         x: random(100, 800),
@@ -58,8 +58,74 @@ var renderPin = function (pin) {
   return newPin;
 };
 
-var fragment = document.createDocumentFragment();
+var fragmentPins = document.createDocumentFragment();
 for (var i = 0; i < notices.length; i++) {
-  fragment.appendChild(renderPin(notices[i]));
+  fragmentPins.appendChild(renderPin(notices[i]));
 }
-mapPinsBlock.appendChild(fragment);
+mapPinsBlock.appendChild(fragmentPins);
+
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+
+var addCardPhotos = function (card, template) {
+  var photos = template.querySelector('.popup__photos');
+  var img = template.querySelector('.popup__photo');
+  img.src = card.offer.photos[0];
+  if (card.offer.photos.length > 1) {
+    for (i = 1; i < card.offer.photos.length; i++) {
+      var newImg = img.cloneNode(true);
+      photos.appendChild(newImg);
+      newImg.src = card.offer.photos[i];
+    }
+  }
+  return newImg;
+};
+
+var addCardType = function (card, template) {
+  var types = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
+  template.querySelector('.popup__type').textContent = types[card.offer.type];
+};
+
+var addCardFeatures = function (card, template) {
+  var features = template.querySelector('.popup__features');
+  if (!card.offer.features.includes('wifi')) {
+    features.removeChild(template.querySelector('.popup__feature--wifi'));
+  }
+  if (!card.offer.features.includes('dishwasher')) {
+    features.removeChild(template.querySelector('.popup__feature--dishwasher'));
+  }
+  if (!card.offer.features.includes('parking')) {
+    features.removeChild(template.querySelector('.popup__feature--parking'));
+  }
+  if (!card.offer.features.includes('washer')) {
+    features.removeChild(template.querySelector('.popup__feature--washer'));
+  }
+  if (!card.offer.features.includes('elevator')) {
+    features.removeChild(template.querySelector('.popup__feature--elevator'));
+  }
+  if (!card.offer.features.includes('conditioner')) {
+    features.removeChild(template.querySelector('.popup__feature--conditioner'));
+  }
+  return features;
+};
+
+
+var addCard = function (card) {
+  addCardType(card, cardTemplate);
+  addCardFeatures(card, cardTemplate);
+  addCardPhotos(card, cardTemplate);
+  var newCard = cardTemplate.cloneNode(true);
+  newCard.querySelector('.popup__avatar').src = card.author.avatar;
+  newCard.querySelector('.popup__title').textContent = card.offer.title;
+  newCard.querySelector('.popup__text--address').textContent = card.offer.adress;
+  newCard.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+  newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
+  newCard.querySelector('.popup__description').textContent = card.offer.description;
+  map.insertBefore(newCard, document.querySelector('.map__filters-container'));
+  return newCard;
+};
+addCard(notices[0]);
