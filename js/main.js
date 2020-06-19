@@ -222,23 +222,17 @@ roomNumber.addEventListener('change', function () {
     roomNumber.setCustomValidity('Выберете корректно');
   } else {
     roomNumber.setCustomValidity('');
+    guestNumber.setCustomValidity('');
   }
-
-  // console.log('Кол-во комнат ' + roomNumber.value);
-  // console.log('Кол-во гостей ' + guestNumber.value);
-  // console.log(checkCapacity());
 });
 
 guestNumber.addEventListener('change', function () {
   if (!checkCapacity()) {
     guestNumber.setCustomValidity('Выберете корректно');
   } else {
+    roomNumber.setCustomValidity('');
     guestNumber.setCustomValidity('');
   }
-
-  // console.log('Кол-во комнат ' + roomNumber.value);
-  // console.log('Кол-во гостей ' + guestNumber.value);
-  // console.log(checkCapacity());
 });
 
 noticeForm.addEventListener('submit', function (evt) {
