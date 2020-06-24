@@ -108,6 +108,9 @@ var renderPin = function (pin) {
   newPin.querySelector('img').src = pin.author.avatar;
   newPin.querySelector('img').alt = pin.offer.title;
   newPin.style = 'left: ' + (pin.location.x + 25) + 'px; top: ' + (pin.location.y + 70) + 'px;';
+  newPin.addEventListener('click', function () {
+    openCardHandler(pin, newPin);
+  });
   return newPin;
 };
 
@@ -117,10 +120,7 @@ var addPins = function () {
     fragmentPins.appendChild(renderPin(notices[i]));
   }
   mapPinsBlock.appendChild(fragmentPins);
-  var pins = mapPinsBlock.querySelectorAll('.map__pin');
-  return pins;
 };
-
 
 var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 var addCardPhotos = function (card, template) {
@@ -180,47 +180,34 @@ var addCard = function (card) {
   return newCard;
 };
 
-var addPinsAtActivePage = function () {
-  var pins = addPins();
-  for (var i = 1; i < pins.length; i++) { // i = 0 main--pin
-    openCardHandler(pins[i], notices[i - 1]);
-  }
-};
-
-var openCard = function (notice) {
-  var openedCard = addCard(notice); // добавление в ДОМ соотв карточки)
+var openCard = function (notice, currentPin) {
+  var openedCard = addCard(notice);
   var closeBtnCard = map.querySelector('.popup__close');
   closeBtnCard.addEventListener('click', function () {
-    map.removeChild(openedCard);
+    closeCardHandler(openedCard, currentPin);
   });
 };
 
-var openCardHandler = function (currentPin, notice) {
-  currentPin.addEventListener('click', function () {
-    openCard(notice);
-    currentPin.classList.add('map__pin--active');
-  });
+var openCardHandler = function (notice, currentPin) {
+  openCard(notice, currentPin);
+  currentPin.classList.add('map__pin--active');
 };
 
-var mainPinHandler = function (evt) {
-  if (evt.button === 0) {
+var closeCardHandler = function (currentCard, currentPin) {
+  map.removeChild(currentCard);
+  currentPin.classList.remove('map__pin--active');
+};
+
+var mainPinClickHandler = function (evt) {
+  if (evt.button === 0 || evt.key === 'Enter') {
     makePageActive(noticeFormFields);
     makePageActive(noticeFilters);
     setNoticeAddress(notices[0]);
-    addPinsAtActivePage();
+    addPins();
   }
 };
-mapPinMain.addEventListener('mousedown', mainPinHandler);
-
-// mapPinMain.addEventListener('keydown', function (evt) {
-//   if (evt.key === 'Enter') {
-//     makePageActive(noticeFormFields);
-//     makePageActive(noticeFilters);
-//     setNoticeAddress(notices[0]);
-//     addPins();
-//   }
-// });
-
+mapPinMain.addEventListener('mousedown', mainPinClickHandler);
+mapPinMain.addEventListener('keydown', mainPinClickHandler);
 // =========================================================
 
 // ==================Валидация полей формы==================
