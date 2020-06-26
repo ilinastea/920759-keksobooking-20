@@ -111,6 +111,11 @@ var renderPin = function (pin) {
   newPin.addEventListener('click', function () {
     openCardHandler(pin, newPin);
   });
+  newPin.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      openCardHandler(pin, newPin);
+    }
+  });
   return newPin;
 };
 
@@ -186,11 +191,19 @@ var openCard = function (notice, currentPin) {
   closeBtnCard.addEventListener('click', function () {
     closeCardHandler(openedCard, currentPin);
   });
+  closeBtnCard.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Esc') {
+      closeCardHandler(openedCard, currentPin);
+    }
+  });
 };
 
 var openCardHandler = function (notice, currentPin) {
-  openCard(notice, currentPin);
-  currentPin.classList.add('map__pin--active');
+  var popup = map.querySelector('.popup');
+  if (!popup) {
+    openCard(notice, currentPin);
+    currentPin.classList.add('map__pin--active');
+  }
 };
 
 var closeCardHandler = function (currentCard, currentPin) {
