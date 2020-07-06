@@ -6,6 +6,7 @@
   var noticeFormFields = noticeForm.querySelectorAll('fieldset');
   var noticeFilterForm = document.querySelector('.map__filters');
   var noticeFilters = noticeFilterForm.querySelectorAll('select, fieldset');
+  var mainPinCoordinates = window.getMainPinCoordinates();
 
   var makeFieldsDisabled = function (fields) {
     for (var i = 0; i < fields.length; i++) {
@@ -14,7 +15,7 @@
   };
   makeFieldsDisabled(noticeFormFields);
   makeFieldsDisabled(noticeFilters);
-  window.pinAddress(window.mainPinAddress.mainPinCoordinates);
+  window.pinAddress(mainPinCoordinates);
 
   var makePageActive = function (fields) {
     for (var i = 0; i < fields.length; i++) {
@@ -28,11 +29,10 @@
     if (evt.button === 0 || evt.key === 'Enter') {
       makePageActive(noticeFormFields);
       makePageActive(noticeFilters);
-      window.pinAddress(window.data.notices[0]);
       window.addPins();
     }
   };
-  var mapPinMain = document.querySelector('.map__pin--main');
-  mapPinMain.addEventListener('mousedown', mainPinClickHandler);
-  mapPinMain.addEventListener('keydown', mainPinClickHandler);
+  var mainPin = document.querySelector('.map__pin--main');
+  mainPin.addEventListener('mousedown', mainPinClickHandler);
+  mainPin.addEventListener('keydown', mainPinClickHandler);
 })();
