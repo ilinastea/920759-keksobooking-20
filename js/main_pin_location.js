@@ -2,34 +2,26 @@
 
 (function () {
   var mainPin = document.querySelector('.map__pin--main');
+  var getMainPinLocation = function (left, top) {
+    var location = {
+      location: {
+        x: 0,
+        y: 0
+      }
+    };
+    var x = parseInt(mainPin.style.left.replace('px', ''), 10) + left;
+    var y = parseInt(mainPin.style.top.replace('px', ''), 10) + top;
+    location.location.x = x;
+    location.location.y = y;
+    return location;
+  };
 
   window.mainPinLocation = {
-
     getDefault: function () {
-      var locationDeafult = {
-        location: {
-          x: 0,
-          y: 0
-        }
-      };
-      var x = parseInt(mainPin.style.left.replace('px', ''), 10) + 33; // по умолчанию размер 65*65, центр метки
-      var y = parseInt(mainPin.style.top.replace('px', ''), 10) + 33;
-      locationDeafult.location.x = x;
-      locationDeafult.location.y = y;
-      return locationDeafult;
+      return getMainPinLocation(33, 33);
     },
     getActive: function () {
-      var locationActive = {
-        location: {
-          x: 0,
-          y: 0
-        }
-      };
-      var x = parseInt(mainPin.style.left.replace('px', ''), 10) + 31; // в активном состоняии размер 62*62
-      var y = parseInt(mainPin.style.top.replace('px', ''), 10) + 84; // учитывается длина острого конца
-      locationActive.location.x = x;
-      locationActive.location.y = y;
-      return locationActive;
+      return getMainPinLocation(31, 84);
     }
   };
 })();

@@ -17,7 +17,7 @@
   };
   makeFieldsDisabled(noticeFormFields);
   makeFieldsDisabled(noticeFilters);
-  window.pinAddress(mainPinCoordinates);
+  window.setPinAddress(mainPinCoordinates);
 
   var makePageActive = function (fields) {
     for (var i = 0; i < fields.length; i++) {

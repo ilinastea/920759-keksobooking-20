@@ -26,8 +26,19 @@
           y: moveEvt.clientY
         };
 
-        if (mainPin.offsetTop > 130 && mainPin.offsetTop < 630) {
+        if (mainPin.offsetTop < 130) {
+          mainPin.style.top = 130 + 'px';
+        } else if (mainPin.offsetTop > 630) {
+          mainPin.style.top = 630 + 'px';
+        } else {
           mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+        }
+
+        if (mainPin.offsetLeft < 0) {
+          mainPin.style.left = 0 + 'px';
+        } else if (mainPin.offsetLeft > 1130) {
+          mainPin.style.left = 1130 + 'px';
+        } else {
           mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
         }
       };
@@ -39,7 +50,7 @@
         document.removeEventListener('mouseup', onMouseUp);
 
         var mainPinCoords = window.mainPinLocation.getActive();
-        window.pinAddress(mainPinCoords);
+        window.setPinAddress(mainPinCoords);
       };
 
       document.addEventListener('mousemove', onMouseMove);
