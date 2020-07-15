@@ -3,7 +3,6 @@
 (function () {
   var mainPin = document.querySelector('.map__pin--main');
 
-
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === 0) {
       evt.preventDefault();

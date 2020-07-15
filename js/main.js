@@ -9,14 +9,8 @@
   var mainPinCoordinates = window.mainPinLocation.getDefault();
   var mapPinsBlock = document.querySelector('.map__pins');
 
-
-  var makeFieldsDisabled = function (fields) {
-    for (var i = 0; i < fields.length; i++) {
-      fields[i].setAttribute('disabled', 'true');
-    }
-  };
-  makeFieldsDisabled(noticeFormFields);
-  makeFieldsDisabled(noticeFilters);
+  window.pageDefault.setFieldsDisabled(noticeFormFields);
+  window.pageDefault.setFieldsDisabled(noticeFilters);
   window.setPinAddress(mainPinCoordinates);
 
   var makePageActive = function (fields) {
