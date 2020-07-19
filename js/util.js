@@ -14,6 +14,9 @@
       if (evt.key === ENTER_KEY) {
         action();
       }
+    },
+    statusCode: {
+      OK: 200
     }
   };
 })();

@@ -6,8 +6,10 @@
   var addCardPhotos = function (card, template) {
     var photos = template.querySelector('.popup__photos');
     var img = template.querySelector('.popup__photo');
-    img.src = card.offer.photos[0];
-    if (card.offer.photos.length > 1) {
+    if (card.offer.photos.length === 0) {
+      photos.removeChild(img);
+    } else {
+      img.src = card.offer.photos[0];
       for (var i = 1; i < card.offer.photos.length; i++) {
         var newImg = img.cloneNode(true);
         photos.appendChild(newImg);

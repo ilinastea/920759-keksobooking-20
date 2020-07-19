@@ -45,23 +45,23 @@
     }
   });
 
-  var types = noticeForm.querySelector('#type');
+  var type = noticeForm.querySelector('#type');
   var price = noticeForm.querySelector('#price');
 
-  types.addEventListener('change', function () {
-    if (types.value === 'bungalo') {
+  type.addEventListener('change', function () {
+    if (type.value === 'bungalo') {
       price.setAttribute('min', 0);
       price.placeholder = 0;
     }
-    if (types.value === 'flat') {
+    if (type.value === 'flat') {
       price.setAttribute('min', 1000);
       price.placeholder = 1000;
     }
-    if (types.value === 'house') {
+    if (type.value === 'house') {
       price.setAttribute('min', 5000);
       price.placeholder = 5000;
     }
-    if (types.value === 'palace') {
+    if (type.value === 'palace') {
       price.setAttribute('min', 10000);
       price.placeholder = 10000;
     }
@@ -85,7 +85,7 @@
   resetButton.addEventListener('click', function () {
     window.pageDefault.setFieldsDisabled(noticeFormFields);
     window.pageDefault.setFieldsDisabled(noticeFilters);
-    window.pageDefault.setInactive();
+    window.pageDefault.deactivate();
   });
 
   noticeForm.addEventListener('submit', function (evt) {
@@ -118,6 +118,6 @@
     }
     window.pageDefault.setFieldsDisabled(noticeFormFields);
     window.pageDefault.setFieldsDisabled(noticeFilters);
-    window.pageDefault.setInactive();
+    window.pageDefault.deactivate();
   });
 })();

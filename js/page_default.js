@@ -8,7 +8,7 @@
       }
     },
 
-    setInactive: function () {
+    deactivate: function () {
       var map = document.querySelector('.map');
       var mapPinsBlock = document.querySelector('.map__pins');
       var mainPin = document.querySelector('.map__pin--main');
@@ -26,7 +26,7 @@
       noticeForm.classList.add('ad-form--disabled');
 
       var title = noticeForm.querySelector('#title');
-      var types = noticeForm.querySelector('#type');
+      var type = noticeForm.querySelector('#type');
       var price = noticeForm.querySelector('#price');
       var checkInTime = noticeForm.querySelector('#timein');
       var checkOutTime = noticeForm.querySelector('#timeout');
@@ -35,33 +35,13 @@
       var features = noticeForm.querySelectorAll('.feature__checkbox');
       var description = noticeForm.querySelector('#description');
       title.value = '';
-      for (i = 0; i < types.length; i++) {
-        if (types[i].value === 'flat') {
-          types[i].selected = true;
-        }
-      }
+      type[1].selected = true;
       price.value = '';
       price.placeholder = 1000;
-      for (i = 0; i < checkInTime.length; i++) {
-        if (checkInTime[i].value === '12:00') {
-          checkInTime[i].selected = true;
-        }
-      }
-      for (i = 0; i < checkOutTime.length; i++) {
-        if (checkOutTime[i].value === '12:00') {
-          checkOutTime[i].selected = true;
-        }
-      }
-      for (i = 0; i < roomNumber.length; i++) {
-        if (roomNumber[i].value === '1') {
-          roomNumber[i].selected = true;
-        }
-      }
-      for (i = 0; i < guestNumber.length; i++) {
-        if (guestNumber[i].value === '1') {
-          guestNumber[i].selected = true;
-        }
-      }
+      checkInTime[0].selected = true;
+      checkOutTime[0].selected = true;
+      roomNumber[0].selected = true;
+      guestNumber[2].selected = true;
       for (i = 0; i < features.length; i++) {
         features[i].checked = false;
       }

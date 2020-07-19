@@ -1,13 +1,13 @@
 'use strict';
 
 (function () {
+  var MAX_PINS_COUNT = 5;
   var map = document.querySelector('.map');
   var noticeForm = document.querySelector('.ad-form');
   var noticeFormFields = noticeForm.querySelectorAll('fieldset');
   var noticeFilterForm = document.querySelector('.map__filters');
   var noticeFilters = noticeFilterForm.querySelectorAll('select, fieldset');
   var mainPinCoordinates = window.mainPinLocation.getDefault();
-  var mapPinsBlock = document.querySelector('.map__pins');
 
   window.pageDefault.setFieldsDisabled(noticeFormFields);
   window.pageDefault.setFieldsDisabled(noticeFilters);
@@ -21,17 +21,19 @@
     map.classList.remove('map--faded');
   };
 
+  var loadedNotices = [];
+  var successHandler = function (notices) {
+    window.renderPins(notices, MAX_PINS_COUNT);
+    loadedNotices = notices;
+    // console.log(loadedNotices);
+    window.filterType(loadedNotices);
+  };
+
   var mainPinClickHandler = function (evt) {
     if (evt.button === 0 || evt.key === 'Enter') {
       makePageActive(noticeFormFields);
       makePageActive(noticeFilters);
-      window.load(function (notices) {
-        var fragmentPins = document.createDocumentFragment();
-        for (var i = 0; i < notices.length; i++) {
-          fragmentPins.appendChild(window.renderPin(notices[i]));
-        }
-        mapPinsBlock.appendChild(fragmentPins);
-      }, function () {});
+      window.loadData(successHandler, function () {});
     }
   };
   var mainPin = document.querySelector('.map__pin--main');
