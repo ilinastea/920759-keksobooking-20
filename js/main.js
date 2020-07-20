@@ -25,8 +25,7 @@
   var successHandler = function (notices) {
     window.renderPins(notices, MAX_PINS_COUNT);
     loadedNotices = notices;
-    // console.log(loadedNotices);
-    window.filterType(loadedNotices);
+    window.filter(loadedNotices);
   };
 
   var mainPinClickHandler = function (evt) {

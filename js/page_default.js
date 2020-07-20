@@ -35,17 +35,26 @@
       var features = noticeForm.querySelectorAll('.feature__checkbox');
       var description = noticeForm.querySelector('#description');
       title.value = '';
-      type[1].selected = true;
+      type.value = 'flat';
       price.value = '';
       price.placeholder = 1000;
-      checkInTime[0].selected = true;
-      checkOutTime[0].selected = true;
-      roomNumber[0].selected = true;
-      guestNumber[2].selected = true;
+      checkInTime.value = '12:00';
+      checkOutTime.value = '12:00';
+      roomNumber.value = 1;
+      guestNumber.value = 1;
       for (i = 0; i < features.length; i++) {
         features[i].checked = false;
       }
       description.value = '';
+
+      var filters = document.querySelectorAll('.map__filter');
+      var featuresFilters = document.querySelectorAll('.map__checkbox');
+      for (i = 0; i < filters.length; i++) {
+        filters[i].value = 'any';
+      }
+      for (i = 0; i < featuresFilters.length; i++) {
+        featuresFilters[i].checked = false;
+      }
     }
   };
 })();

@@ -98,10 +98,8 @@
         successPopup.addEventListener('click', function () {
           window.formSubmit.closePopupHandler(successPopup);
         });
-        successPopup.addEventListener('keydown', function () {
-          if (evt.key === 'Esc') {
-            window.formSubmit.closePopupHandler(successPopup);
-          }
+        document.addEventListener('keydown', function () {
+          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(successPopup));
         });
       }, function () {
         var errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -114,6 +112,10 @@
         errorButton.addEventListener('click', function () {
           window.formSubmit.closePopupHandler(errorPopup);
         });
+        document.addEventListener('keydown', function () {
+          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(errorPopup));
+        });
+
       });
     }
     window.pageDefault.setFieldsDisabled(noticeFormFields);

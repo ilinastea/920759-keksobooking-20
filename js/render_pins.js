@@ -20,11 +20,19 @@
   var mapPinsBlock = document.querySelector('.map__pins');
 
   window.renderPins = function (notices, count) {
+
+    var pins = mapPinsBlock.querySelectorAll('.map__pin');
+    for (var i = 1; i < pins.length; i++) {
+      mapPinsBlock.removeChild(pins[i]);
+    }
+
+
     var fragmentPins = document.createDocumentFragment();
-    for (var i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
       fragmentPins.appendChild(renderPin(notices[i]));
     }
     mapPinsBlock.appendChild(fragmentPins);
+
   };
 
 })();
