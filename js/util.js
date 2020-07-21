@@ -1,19 +1,22 @@
 'use strict';
 
 (function () {
-  var ESC_KEY = 'Esc';
-  var ENTER_KEY = 'Enter';
+  var ESC_KEY = 27;
+  var ENTER_KEY = 13;
 
   window.util = {
     isEscEvent: function (evt, action) {
-      if (evt.key === ESC_KEY) {
+      if (evt.keyCode === ESC_KEY) {
         action();
       }
     },
     isEnterEvent: function (evt, action) {
-      if (evt.key === ENTER_KEY) {
+      if (evt.keyCode === ENTER_KEY) {
         action();
       }
+    },
+    statusCode: {
+      OK: 200
     }
   };
 })();

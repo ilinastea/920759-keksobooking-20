@@ -2,9 +2,11 @@
 
 (function () {
   var map = document.querySelector('.map');
+  var filters = document.querySelector('.map__filters');
   var openCard = function (notice, currentPin) {
     var openedCard = window.addCard(notice);
     var closeBtnCard = map.querySelector('.popup__close');
+
     closeBtnCard.addEventListener('click', function () {
       window.pinInteraction.closeCardHandler(openedCard, currentPin);
     });
@@ -12,6 +14,11 @@
     closeBtnCard.addEventListener('keydown', function (evt) {
       window.util.isEscEvent(evt, window.pinInteraction.closeCardHandler(openedCard, currentPin));
     });
+
+    filters.addEventListener('change', function () {
+      window.pinInteraction.closeCardHandler(openedCard, currentPin);
+    });
+
   };
 
   window.pinInteraction = {

@@ -6,8 +6,10 @@
   var addCardPhotos = function (card, template) {
     var photos = template.querySelector('.popup__photos');
     var img = template.querySelector('.popup__photo');
-    img.src = card.offer.photos[0];
-    if (card.offer.photos.length > 1) {
+    if (card.offer.photos.length === 0) {
+      photos.removeChild(img);
+    } else {
+      img.src = card.offer.photos[0];
       for (var i = 1; i < card.offer.photos.length; i++) {
         var newImg = img.cloneNode(true);
         photos.appendChild(newImg);
@@ -47,13 +49,27 @@
   };
   window.addCard = function (card) {
     var newCard = cardTemplate.cloneNode(true);
+    map.insertBefore(newCard, map.querySelector('.map__filters-container'));
+
     newCard.querySelector('.popup__avatar').src = card.author.avatar;
     newCard.querySelector('.popup__title').textContent = card.offer.title;
     newCard.querySelector('.popup__text--address').textContent = card.offer.adress;
     newCard.querySelector('.popup__text--price').textContent = card.offer.price + '₽/ночь';
+    var popup = map.querySelector('.popup');
+    var capacity = popup.querySelector('.popup__text--capacity');
+
+    if (card.offer.rooms === 0 && card.offer.guests === 0) {
+      popup.removeChild(capacity);
+    } else if (card.offer.rooms === 1 && card.offer.guests === 1) {
+      newCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостя';
+    } else if (card.offer.rooms === 1) {
+      newCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комната для ' + card.offer.guests + ' гостей';
+    } else {
+      newCard.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
+    }
+
     newCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
     newCard.querySelector('.popup__description').textContent = card.offer.description;
-    map.insertBefore(newCard, map.querySelector('.map__filters-container'));
     addCardType(card, newCard);
     addCardFeatures(card, newCard);
     addCardPhotos(card, newCard);

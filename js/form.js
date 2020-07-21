@@ -2,6 +2,9 @@
 
 (function () {
   var noticeForm = document.querySelector('.ad-form');
+  var noticeFormFields = noticeForm.querySelectorAll('fieldset');
+  var noticeFilterForm = document.querySelector('.map__filters');
+  var noticeFilters = noticeFilterForm.querySelectorAll('select, fieldset');
   var roomNumber = noticeForm.querySelector('#room_number');
   var guestNumber = noticeForm.querySelector('#capacity');
 
@@ -42,13 +45,6 @@
     }
   });
 
-  noticeForm.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    if (checkCapacity()) {
-      noticeForm.submit();
-    }
-  });
-
   var type = noticeForm.querySelector('#type');
   var price = noticeForm.querySelector('#price');
 
@@ -82,5 +78,48 @@
   checkOutTime.addEventListener('change', function () {
     var index = checkOutTime.selectedIndex;
     checkInTime[index].selected = true;
+  });
+
+  var resetButton = noticeForm.querySelector('.ad-form__reset');
+
+  resetButton.addEventListener('click', function () {
+    window.pageDefault.setFieldsDisabled(noticeFormFields);
+    window.pageDefault.setFieldsDisabled(noticeFilters);
+    window.pageDefault.deactivate();
+  });
+
+  noticeForm.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    if (checkCapacity()) {
+      window.upload(new FormData(noticeForm), function () {
+        var succesTemplate = document.querySelector('#success').content.querySelector('.success');
+        window.formSubmit.showPopup(succesTemplate);
+        var successPopup = document.querySelector('.success');
+        successPopup.addEventListener('click', function () {
+          window.formSubmit.closePopupHandler(successPopup);
+        });
+        document.addEventListener('keydown', function () {
+          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(successPopup));
+        });
+      }, function () {
+        var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+        window.formSubmit.showPopup(errorTemplate);
+        var errorPopup = document.querySelector('.error');
+        var errorButton = errorPopup.querySelector('.error__button');
+        errorPopup.addEventListener('click', function () {
+          window.formSubmit.closePopupHandler(errorPopup);
+        });
+        errorButton.addEventListener('click', function () {
+          window.formSubmit.closePopupHandler(errorPopup);
+        });
+        document.addEventListener('keydown', function () {
+          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(errorPopup));
+        });
+
+      });
+    }
+    window.pageDefault.setFieldsDisabled(noticeFormFields);
+    window.pageDefault.setFieldsDisabled(noticeFilters);
+    window.pageDefault.deactivate();
   });
 })();
