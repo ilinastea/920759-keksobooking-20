@@ -46,14 +46,13 @@
         features[i].checked = false;
       }
       description.value = '';
-
-      var filters = document.querySelectorAll('.map__filter');
-      var featuresFilters = document.querySelectorAll('.map__checkbox');
+      var filters = document.querySelector('.map__filters');
+      var featuresCheckbox = filters.querySelectorAll('.map__checkbox');
       for (i = 0; i < filters.length; i++) {
         filters[i].value = 'any';
       }
-      for (i = 0; i < featuresFilters.length; i++) {
-        featuresFilters[i].checked = false;
+      for (i = 0; i < featuresCheckbox.length; i++) {
+        featuresCheckbox[i].checked = false;
       }
     }
   };
