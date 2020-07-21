@@ -39,7 +39,7 @@
             return notice.offer.price < 10000;
           } else if (priceValue === 'high') {
             return notice.offer.price > 50000;
-          } else if (priceValue === 'middle') {
+          } else {
             return (notice.offer.price >= 10000 && notice.offer.price <= 50000);
           }
         })

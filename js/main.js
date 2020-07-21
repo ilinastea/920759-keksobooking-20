@@ -13,7 +13,7 @@
   window.pageDefault.setFieldsDisabled(noticeFilters);
   window.setPinAddress(mainPinCoordinates);
 
-  var makePageActive = function (fields) {
+  var activatePage = function (fields) {
     for (var i = 0; i < fields.length; i++) {
       fields[i].removeAttribute('disabled');
     }
@@ -30,8 +30,8 @@
 
   var mainPinClickHandler = function (evt) {
     if (evt.button === 0 || evt.key === 'Enter') {
-      makePageActive(noticeFormFields);
-      makePageActive(noticeFilters);
+      activatePage(noticeFormFields);
+      activatePage(noticeFilters);
       window.loadData(successHandler, function () {});
     }
   };
