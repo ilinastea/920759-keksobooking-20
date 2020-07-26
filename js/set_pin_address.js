@@ -7,8 +7,5 @@
   window.setPinAddress = function (address) {
     addressInput.value = address.location.x + ', ' + address.location.y;
   };
-
-  addressInput.addEventListener('keydown', function (evt) {
-    evt.preventDefault();
-  });
+  addressInput.readOnly = true;
 })();

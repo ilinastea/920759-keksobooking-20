@@ -24,31 +24,29 @@
 
       var filteredNotices = data
         .filter(function (notice) {
-          return typeValue === 'any' ? true : notice.offer.type === typeValue;
+          return typeValue === 'any' || notice.offer.type === typeValue;
         })
         .filter(function (notice) {
-          return roomsValue === 'any' ? true : notice.offer.rooms === parseInt(roomsValue, 10);
+          return roomsValue === 'any' || notice.offer.rooms === parseInt(roomsValue, 10);
         })
         .filter(function (notice) {
-          return guestsValue === 'any' ? true : notice.offer.guests === parseInt(guestsValue, 10);
+          return guestsValue === 'any' || notice.offer.guests === parseInt(guestsValue, 10);
         })
         .filter(function (notice) {
-          if (priceValue === 'any') {
-            return true;
-          } else if (priceValue === 'low') {
+          if (priceValue === 'low') {
             return notice.offer.price < 10000;
           } else if (priceValue === 'high') {
             return notice.offer.price > 50000;
-          } else {
+          } else if (priceValue === 'middle') {
             return (notice.offer.price >= 10000 && notice.offer.price <= 50000);
           }
+          return true;
         })
         .filter(function (notice) {
-          if (!isFeatureChecked) {
-            return true;
-          } else {
+          if (isFeatureChecked) {
             return notice.offer.features.includes(featuresValue);
           }
+          return true;
         });
 
       if (filteredNotices.length < MAX_PINS_COUNT) {
@@ -65,36 +63,28 @@
       window.renderPins(data, MAX_PINS_COUNT);
     };
 
-    type.addEventListener('change', function () {
-      if (type.value === ANY_FILTER) {
+    var checkValueHandler = function (value) {
+      if (value === ANY_FILTER) {
         window.debounce(filterAllHandler(data));
       } else {
         window.debounce(filterHandler(type.value, rooms.value, guests.value, price.value, featuresChecked));
       }
+    };
+
+    type.addEventListener('change', function () {
+      checkValueHandler(type.value);
     });
 
     rooms.addEventListener('change', function () {
-      if (rooms.value === ANY_FILTER) {
-        window.debounce(filterAllHandler(data));
-      } else {
-        window.debounce(filterHandler(type.value, rooms.value, guests.value, price.value, featuresChecked));
-      }
+      checkValueHandler(rooms.value);
     });
 
     guests.addEventListener('change', function () {
-      if (guests.value === ANY_FILTER) {
-        window.debounce(filterAllHandler(data));
-      } else {
-        window.debounce(filterHandler(type.value, rooms.value, guests.value, price.value, featuresChecked));
-      }
+      checkValueHandler(guests.value);
     });
 
     price.addEventListener('change', function () {
-      if (price.value === ANY_FILTER) {
-        window.debounce(filterAllHandler(data));
-      } else {
-        window.debounce(filterHandler(type.value, rooms.value, guests.value, price.value, featuresChecked));
-      }
+      checkValueHandler(price.value);
     });
 
     features.addEventListener('change', function () {

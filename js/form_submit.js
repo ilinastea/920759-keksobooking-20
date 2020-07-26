@@ -7,8 +7,12 @@
       var popup = template.cloneNode(true);
       main.appendChild(popup);
     },
-    closePopupHandler: function (popup) {
+    closeErrorPopupHandler: function (popup) {
       main.removeChild(popup);
+    },
+    closeSuccessPopupHandler: function (popup) {
+      main.removeChild(popup);
+      window.resetPage();
     }
   };
 })();

@@ -2,16 +2,13 @@
 
 (function () {
   var noticeForm = document.querySelector('.ad-form');
-  var noticeFormFields = noticeForm.querySelectorAll('fieldset');
-  var noticeFilterForm = document.querySelector('.map__filters');
-  var noticeFilters = noticeFilterForm.querySelectorAll('select, fieldset');
   var roomNumber = noticeForm.querySelector('#room_number');
   var guestNumber = noticeForm.querySelector('#capacity');
 
   var checkCapacity = function () {
     var roomsValue = roomNumber.value;
     var guestsValue = guestNumber.value;
-    var isValid;
+    var isValid = true;
 
     if (roomsValue === '1' && guestsValue !== '1') {
       isValid = false;
@@ -21,8 +18,6 @@
       isValid = false;
     } else if (roomsValue === '100' && guestsValue !== '0') {
       isValid = false;
-    } else {
-      isValid = true;
     }
     return isValid;
   };
@@ -83,10 +78,21 @@
   var resetButton = noticeForm.querySelector('.ad-form__reset');
 
   resetButton.addEventListener('click', function () {
-    window.pageDefault.setFieldsDisabled(noticeFormFields);
-    window.pageDefault.setFieldsDisabled(noticeFilters);
-    window.pageDefault.deactivate();
+    window.resetPage();
   });
+
+  var successPopup;
+  var errorPopup;
+  var successPopupHandler = function (evtS) {
+    window.util.isEscEvent(evtS, function () {
+      window.formSubmit.closeSuccessPopupHandler(successPopup);
+    });
+  };
+  var errorPopupHandler = function (evtE) {
+    window.util.isEscEvent(evtE, function () {
+      window.formSubmit.closeErrorPopupHandler(errorPopup);
+    });
+  };
 
   noticeForm.addEventListener('submit', function (evt) {
     evt.preventDefault();
@@ -94,32 +100,20 @@
       window.upload(new FormData(noticeForm), function () {
         var succesTemplate = document.querySelector('#success').content.querySelector('.success');
         window.formSubmit.showPopup(succesTemplate);
-        var successPopup = document.querySelector('.success');
+        successPopup = document.querySelector('.success');
         successPopup.addEventListener('click', function () {
-          window.formSubmit.closePopupHandler(successPopup);
+          window.formSubmit.closeSuccessPopupHandler(successPopup);
         });
-        document.addEventListener('keydown', function () {
-          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(successPopup));
-        });
+        document.addEventListener('keydown', successPopupHandler);
       }, function () {
         var errorTemplate = document.querySelector('#error').content.querySelector('.error');
         window.formSubmit.showPopup(errorTemplate);
-        var errorPopup = document.querySelector('.error');
-        var errorButton = errorPopup.querySelector('.error__button');
+        errorPopup = document.querySelector('.error');
         errorPopup.addEventListener('click', function () {
-          window.formSubmit.closePopupHandler(errorPopup);
+          window.formSubmit.closeErrorPopupHandler(errorPopup);
         });
-        errorButton.addEventListener('click', function () {
-          window.formSubmit.closePopupHandler(errorPopup);
-        });
-        document.addEventListener('keydown', function () {
-          window.util.isEscEvent(evt, window.formSubmit.closePopupHandler(errorPopup));
-        });
-
+        document.addEventListener('keydown', errorPopupHandler);
       });
     }
-    window.pageDefault.setFieldsDisabled(noticeFormFields);
-    window.pageDefault.setFieldsDisabled(noticeFilters);
-    window.pageDefault.deactivate();
   });
 })();
