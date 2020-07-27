@@ -35,7 +35,8 @@
 
         if (mainPin.offsetLeft < -31) {
           mainPin.style.left = -31 + 'px';
-        } else if (mainPin.offsetLeft > 1169) {
+        } else
+        if (mainPin.offsetLeft > 1169) {
           mainPin.style.left = 1169 + 'px';
         } else {
           mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
